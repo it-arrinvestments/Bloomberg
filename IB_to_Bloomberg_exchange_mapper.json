@@ -1,0 +1,212 @@
+{
+    "_metadata": {
+      "description": "Interactive Brokers to Bloomberg exchange code mapper for equities and ETFs",
+      "last_updated": "2026-04-20",
+      "usage_notes": [
+        "Use 'bbg_code' as the 2-letter Bloomberg exchange suffix (e.g. 'UW' for AAPL UW Equity).",
+        "Use 'bbg_composite' when you want the country-level composite feed instead of a specific venue.",
+        "For Bloomberg PORT uploads, prefer specific 'bbg_code' over composite unless the position is genuinely cross-listed and you don't care which venue.",
+        "If an IB code is missing here, ISIN + CURRENCY alone is almost always sufficient for Bloomberg to resolve the security.",
+        "SMART is IB's router, not an exchange — resolve the actual listing exchange before mapping.",
+        "Where IB uses multiple codes for the same venue (e.g. IBIS/IBIS2 both = XETRA), all variants map to the same Bloomberg code."
+      ]
+    },
+  
+    "united_states": {
+      "NASDAQ":      { "bbg_code": "UW", "bbg_composite": "US", "name": "Nasdaq Global Select Market", "mic": "XNAS", "country": "US" },
+      "NASDAQ.NMS":  { "bbg_code": "UQ", "bbg_composite": "US", "name": "Nasdaq Global Market",        "mic": "XNAS", "country": "US" },
+      "NASDAQCM":    { "bbg_code": "UR", "bbg_composite": "US", "name": "Nasdaq Capital Market",       "mic": "XNAS", "country": "US" },
+      "ISLAND":      { "bbg_code": "UW", "bbg_composite": "US", "name": "Nasdaq (Island ECN legacy)",  "mic": "XNAS", "country": "US" },
+      "NYSE":        { "bbg_code": "UN", "bbg_composite": "US", "name": "New York Stock Exchange",     "mic": "XNYS", "country": "US" },
+      "ARCA":        { "bbg_code": "UP", "bbg_composite": "US", "name": "NYSE Arca",                   "mic": "ARCX", "country": "US" },
+      "AMEX":        { "bbg_code": "UA", "bbg_composite": "US", "name": "NYSE American (MKT)",         "mic": "XASE", "country": "US" },
+      "NYSENAT":     { "bbg_code": "UC", "bbg_composite": "US", "name": "NYSE National",               "mic": "XCIS", "country": "US" },
+      "CHX":         { "bbg_code": "UM", "bbg_composite": "US", "name": "NYSE Chicago",                "mic": "XCHI", "country": "US" },
+      "IEX":         { "bbg_code": "VF", "bbg_composite": "US", "name": "Investors Exchange (IEX)",    "mic": "IEXG", "country": "US" },
+      "BATS":        { "bbg_code": "UF", "bbg_composite": "US", "name": "Cboe BZX",                    "mic": "BATS", "country": "US" },
+      "BYX":         { "bbg_code": "VY", "bbg_composite": "US", "name": "Cboe BYX",                    "mic": "BATY", "country": "US" },
+      "EDGEA":       { "bbg_code": "VJ", "bbg_composite": "US", "name": "Cboe EDGA",                   "mic": "EDGA", "country": "US" },
+      "EDGEX":       { "bbg_code": "VK", "bbg_composite": "US", "name": "Cboe EDGX",                   "mic": "EDGX", "country": "US" },
+      "PSX":         { "bbg_code": "UX", "bbg_composite": "US", "name": "Nasdaq PSX",                  "mic": "XPSX", "country": "US" },
+      "BEX":         { "bbg_code": "UB", "bbg_composite": "US", "name": "Nasdaq BX",                   "mic": "XBOS", "country": "US" },
+      "MEMX":        { "bbg_code": "VG", "bbg_composite": "US", "name": "Members Exchange",            "mic": "MEMX", "country": "US" },
+      "PEARL":       { "bbg_code": "VP", "bbg_composite": "US", "name": "MIAX Pearl",                  "mic": "EPRL", "country": "US" },
+      "MIAX":        { "bbg_code": "VP", "bbg_composite": "US", "name": "MIAX (Pearl equities)",       "mic": "EPRL", "country": "US" },
+      "LTSE":        { "bbg_code": "VL", "bbg_composite": "US", "name": "Long-Term Stock Exchange",    "mic": "LTSE", "country": "US" },
+      "PINK":        { "bbg_code": "PQ", "bbg_composite": "US", "name": "OTC Pink Marketplace",        "mic": "OTCM", "country": "US" },
+      "OTCBB":       { "bbg_code": "UU", "bbg_composite": "US", "name": "OTC Bulletin Board",          "mic": "XOTC", "country": "US" },
+      "PHLX":        { "bbg_code": "UX", "bbg_composite": "US", "name": "Nasdaq PHLX (options venue)", "mic": "XPHL", "country": "US" }
+    },
+  
+    "canada": {
+      "TSE":         { "bbg_code": "CT", "bbg_composite": "CN", "name": "Toronto Stock Exchange",      "mic": "XTSE", "country": "CA" },
+      "TSX":         { "bbg_code": "CT", "bbg_composite": "CN", "name": "Toronto Stock Exchange",      "mic": "XTSE", "country": "CA" },
+      "VENTURE":     { "bbg_code": "CV", "bbg_composite": "CN", "name": "TSX Venture Exchange",        "mic": "XTSX", "country": "CA" },
+      "CDNX":        { "bbg_code": "CV", "bbg_composite": "CN", "name": "TSX Venture Exchange",        "mic": "XTSX", "country": "CA" },
+      "PURE":        { "bbg_code": "CJ", "bbg_composite": "CN", "name": "Pure Trading",                "mic": "PURE", "country": "CA" },
+      "CNSX":        { "bbg_code": "CF", "bbg_composite": "CN", "name": "Canadian Securities Exchange","mic": "XCNQ", "country": "CA" },
+      "CSE":         { "bbg_code": "CF", "bbg_composite": "CN", "name": "Canadian Securities Exchange","mic": "XCNQ", "country": "CA" },
+      "ALPHA":       { "bbg_code": "TN", "bbg_composite": "CN", "name": "Alpha Exchange",              "mic": "XATS", "country": "CA" },
+      "OMEGA":       { "bbg_code": "TG", "bbg_composite": "CN", "name": "Omega ATS",                   "mic": "OMGA", "country": "CA" },
+      "CHIXCA":      { "bbg_code": "TX", "bbg_composite": "CN", "name": "Chi-X Canada",                "mic": "CHIC", "country": "CA" },
+      "NEOE":        { "bbg_code": "QF", "bbg_composite": "CN", "name": "NEO Exchange (Aequitas)",     "mic": "NEOE", "country": "CA" },
+      "LYNX":        { "bbg_code": "DG", "bbg_composite": "CN", "name": "Lynx ATS",                    "mic": "LYNX", "country": "CA" },
+      "MATNLP":      { "bbg_code": "TR", "bbg_composite": "CN", "name": "MatchNow (TriAct)",           "mic": "MATN", "country": "CA" }
+    },
+  
+    "united_kingdom_ireland": {
+      "LSE":         { "bbg_code": "LN", "bbg_composite": null, "name": "London Stock Exchange",           "mic": "XLON", "country": "GB" },
+      "LSEETF":      { "bbg_code": "LN", "bbg_composite": null, "name": "LSE ETF segment",                 "mic": "XLON", "country": "GB" },
+      "LSEIOB":      { "bbg_code": "LI", "bbg_composite": null, "name": "LSE International Order Book",    "mic": "XLON", "country": "GB" },
+      "CHIXUK":      { "bbg_code": "IX", "bbg_composite": null, "name": "Cboe Europe CXE (Chi-X)",         "mic": "CHIX", "country": "GB" },
+      "BATEUK":      { "bbg_code": "EB", "bbg_composite": null, "name": "Cboe Europe BXE (BATS)",          "mic": "BATE", "country": "GB" },
+      "TRQXEN":      { "bbg_code": "TQ", "bbg_composite": null, "name": "Turquoise",                       "mic": "TRQX", "country": "GB" },
+      "AQXEN":       { "bbg_code": "QX", "bbg_composite": null, "name": "Aquis Exchange",                  "mic": "AQXE", "country": "GB" },
+      "AQSEUK":      { "bbg_code": "PZ", "bbg_composite": null, "name": "Aquis Stock Exchange (AQSE)",     "mic": "AQSE", "country": "GB" },
+      "ISED":        { "bbg_code": "ID", "bbg_composite": null, "name": "Euronext Dublin (Irish Stock Ex)", "mic": "XDUB", "country": "IE" },
+      "ISEIRL":      { "bbg_code": "ID", "bbg_composite": null, "name": "Euronext Dublin",                 "mic": "XDUB", "country": "IE" }
+    },
+  
+    "germany": {
+      "IBIS":        { "bbg_code": "GY", "bbg_composite": "GR", "name": "XETRA (Deutsche Börse)",     "mic": "XETR", "country": "DE" },
+      "IBIS2":       { "bbg_code": "GY", "bbg_composite": "GR", "name": "XETRA (Deutsche Börse)",     "mic": "XETR", "country": "DE" },
+      "FWB":         { "bbg_code": "GF", "bbg_composite": "GR", "name": "Frankfurt Stock Exchange",   "mic": "XFRA", "country": "DE" },
+      "FWB2":        { "bbg_code": "GF", "bbg_composite": "GR", "name": "Frankfurt Stock Exchange",   "mic": "XFRA", "country": "DE" },
+      "SWB":         { "bbg_code": "GS", "bbg_composite": "GR", "name": "Stuttgart (Börse Stuttgart)","mic": "XSTU", "country": "DE" },
+      "SWB2":        { "bbg_code": "GS", "bbg_composite": "GR", "name": "Stuttgart (Börse Stuttgart)","mic": "XSTU", "country": "DE" },
+      "GETTEX":      { "bbg_code": "GZ", "bbg_composite": "GR", "name": "Gettex (Börse München)",     "mic": "MUND", "country": "DE" },
+      "GETTEX2":     { "bbg_code": "GZ", "bbg_composite": "GR", "name": "Gettex (Börse München)",     "mic": "MUND", "country": "DE" },
+      "TGATE":       { "bbg_code": "TH", "bbg_composite": null, "name": "Tradegate",                  "mic": "TGAT", "country": "DE" },
+      "MUNICH":      { "bbg_code": "GM", "bbg_composite": "GR", "name": "Börse München",              "mic": "XMUN", "country": "DE" }
+    },
+  
+    "netherlands": {
+      "AEB":         { "bbg_code": "NA", "bbg_composite": null, "name": "Euronext Amsterdam",         "mic": "XAMS", "country": "NL" },
+      "ENEXT.NL":    { "bbg_code": "NA", "bbg_composite": null, "name": "Euronext Amsterdam",         "mic": "XAMS", "country": "NL" }
+    },
+  
+    "belgium": {
+      "ENEXT.BE":    { "bbg_code": "BB", "bbg_composite": null, "name": "Euronext Brussels",          "mic": "XBRU", "country": "BE" },
+      "BEL":         { "bbg_code": "BB", "bbg_composite": null, "name": "Euronext Brussels",          "mic": "XBRU", "country": "BE" }
+    },
+  
+    "france": {
+      "SBF":         { "bbg_code": "FP", "bbg_composite": null, "name": "Euronext Paris",             "mic": "XPAR", "country": "FR" },
+      "ENEXT.FR":    { "bbg_code": "FP", "bbg_composite": null, "name": "Euronext Paris",             "mic": "XPAR", "country": "FR" }
+    },
+  
+    "portugal": {
+      "BVL":         { "bbg_code": "PL", "bbg_composite": null, "name": "Euronext Lisbon",            "mic": "XLIS", "country": "PT" },
+      "ENEXT.PT":    { "bbg_code": "PL", "bbg_composite": null, "name": "Euronext Lisbon",            "mic": "XLIS", "country": "PT" }
+    },
+  
+    "italy": {
+      "BVME":        { "bbg_code": "IM", "bbg_composite": null, "name": "Borsa Italiana",             "mic": "XMIL", "country": "IT" },
+      "BVME.ETF":    { "bbg_code": "IM", "bbg_composite": null, "name": "Borsa Italiana ETF segment", "mic": "ETFP", "country": "IT" },
+      "EXPO":        { "bbg_code": "IM", "bbg_composite": null, "name": "Borsa Italiana",             "mic": "XMIL", "country": "IT" },
+      "BIT":         { "bbg_code": "IM", "bbg_composite": null, "name": "Borsa Italiana",             "mic": "XMIL", "country": "IT" }
+    },
+  
+    "spain": {
+      "BM":          { "bbg_code": "SM", "bbg_composite": null, "name": "Bolsa de Madrid",            "mic": "XMAD", "country": "ES" },
+      "MADRID":      { "bbg_code": "SM", "bbg_composite": null, "name": "Bolsa de Madrid",            "mic": "XMAD", "country": "ES" }
+    },
+  
+    "switzerland": {
+      "EBS":         { "bbg_code": "SW", "bbg_composite": null, "name": "SIX Swiss Exchange",         "mic": "XSWX", "country": "CH" },
+      "SIX":         { "bbg_code": "SW", "bbg_composite": null, "name": "SIX Swiss Exchange",         "mic": "XSWX", "country": "CH" },
+      "VIRTX":       { "bbg_code": "VX", "bbg_composite": null, "name": "SIX Swiss (Blue Chips)",     "mic": "XVTX", "country": "CH" }
+    },
+  
+    "nordics": {
+      "HEX":         { "bbg_code": "FH", "bbg_composite": null, "name": "Nasdaq Helsinki",            "mic": "XHEL", "country": "FI" },
+      "OMXHEX":      { "bbg_code": "FH", "bbg_composite": null, "name": "Nasdaq Helsinki",            "mic": "XHEL", "country": "FI" },
+      "CPH":         { "bbg_code": "DC", "bbg_composite": null, "name": "Nasdaq Copenhagen",          "mic": "XCSE", "country": "DK" },
+      "OMXCPH":      { "bbg_code": "DC", "bbg_composite": null, "name": "Nasdaq Copenhagen",          "mic": "XCSE", "country": "DK" },
+      "SFB":         { "bbg_code": "SS", "bbg_composite": null, "name": "Nasdaq Stockholm",           "mic": "XSTO", "country": "SE" },
+      "OMXS":        { "bbg_code": "SS", "bbg_composite": null, "name": "Nasdaq Stockholm",           "mic": "XSTO", "country": "SE" },
+      "OMXNO":       { "bbg_code": "NO", "bbg_composite": null, "name": "Oslo Børs",                  "mic": "XOSL", "country": "NO" },
+      "OSE":         { "bbg_code": "NO", "bbg_composite": null, "name": "Oslo Børs",                  "mic": "XOSL", "country": "NO" },
+      "ICEX":        { "bbg_code": "IR", "bbg_composite": null, "name": "Nasdaq Iceland",             "mic": "XICE", "country": "IS" }
+    },
+  
+    "austria": {
+      "VSE":         { "bbg_code": "AV", "bbg_composite": null, "name": "Wiener Börse",               "mic": "XWBO", "country": "AT" },
+      "VIENNA":      { "bbg_code": "AV", "bbg_composite": null, "name": "Wiener Börse",               "mic": "XWBO", "country": "AT" }
+    },
+  
+    "eastern_europe": {
+      "WSE":         { "bbg_code": "PW", "bbg_composite": null, "name": "Warsaw Stock Exchange",      "mic": "XWAR", "country": "PL" },
+      "BUX":         { "bbg_code": "HB", "bbg_composite": null, "name": "Budapest Stock Exchange",    "mic": "XBUD", "country": "HU" },
+      "PRA":         { "bbg_code": "CK", "bbg_composite": "CP", "name": "Prague Stock Exchange",      "mic": "XPRA", "country": "CZ" },
+      "BSE_RO":      { "bbg_code": "RE", "bbg_composite": "RO", "name": "Bucharest Stock Exchange",   "mic": "XBSE", "country": "RO" }
+    },
+  
+    "greece_turkey": {
+      "ASEX":        { "bbg_code": "GA", "bbg_composite": null, "name": "Athens Exchange",            "mic": "ASEX", "country": "GR" },
+      "ATHEX":       { "bbg_code": "GA", "bbg_composite": null, "name": "Athens Exchange",            "mic": "ASEX", "country": "GR" },
+      "BIST":        { "bbg_code": "TI", "bbg_composite": null, "name": "Borsa Istanbul",             "mic": "XIST", "country": "TR" }
+    },
+  
+    "middle_east": {
+      "TASE":        { "bbg_code": "IT", "bbg_composite": null, "name": "Tel Aviv Stock Exchange",    "mic": "XTAE", "country": "IL" },
+      "DFM":         { "bbg_code": "DB", "bbg_composite": "UH", "name": "Dubai Financial Market",     "mic": "XDFM", "country": "AE" },
+      "ADX":         { "bbg_code": "DH", "bbg_composite": "UH", "name": "Abu Dhabi Securities Exchange","mic": "XADS", "country": "AE" },
+      "NASDAQDUBAI": { "bbg_code": "DU", "bbg_composite": null, "name": "Nasdaq Dubai",               "mic": "DIFX", "country": "AE" },
+      "SAUDI":       { "bbg_code": "AB", "bbg_composite": null, "name": "Saudi Stock Exchange (Tadawul)","mic": "XSAU", "country": "SA" },
+      "TADAWUL":     { "bbg_code": "AB", "bbg_composite": null, "name": "Saudi Stock Exchange (Tadawul)","mic": "XSAU", "country": "SA" },
+      "QATAR":       { "bbg_code": "QD", "bbg_composite": null, "name": "Qatar Exchange",             "mic": "DSMD", "country": "QA" }
+    },
+  
+    "asia_pacific": {
+      "ASX":         { "bbg_code": "AT", "bbg_composite": "AU", "name": "Australian Securities Exchange","mic": "XASX", "country": "AU" },
+      "CHIXAU":      { "bbg_code": "AH", "bbg_composite": "AU", "name": "Cboe Australia (Chi-X)",     "mic": "CHIA", "country": "AU" },
+      "SEHK":        { "bbg_code": "HK", "bbg_composite": null, "name": "Stock Exchange of Hong Kong","mic": "XHKG", "country": "HK" },
+      "HKFE":        { "bbg_code": "HK", "bbg_composite": null, "name": "Hong Kong Futures Exchange", "mic": "XHKF", "country": "HK" },
+      "TSEJ":        { "bbg_code": "JT", "bbg_composite": "JP", "name": "Tokyo Stock Exchange",       "mic": "XTKS", "country": "JP" },
+      "JPNNEXT":     { "bbg_code": "JE", "bbg_composite": "JP", "name": "SBI Japannext (J-Market)",   "mic": "SBIJ", "country": "JP" },
+      "CHIXJ":       { "bbg_code": "JI", "bbg_composite": "JP", "name": "Chi-X Japan",                "mic": "CHIJ", "country": "JP" },
+      "OSE.JPN":     { "bbg_code": "JO", "bbg_composite": "JP", "name": "Osaka Exchange",             "mic": "XOSE", "country": "JP" },
+      "NGO":         { "bbg_code": "JN", "bbg_composite": "JP", "name": "Nagoya Stock Exchange",      "mic": "XNGO", "country": "JP" },
+      "FKA":         { "bbg_code": "JF", "bbg_composite": "JP", "name": "Fukuoka Stock Exchange",     "mic": "XFKA", "country": "JP" },
+      "SGX":         { "bbg_code": "SP", "bbg_composite": null, "name": "Singapore Exchange",         "mic": "XSES", "country": "SG" },
+      "KSE":         { "bbg_code": "KP", "bbg_composite": "KS", "name": "Korea Exchange (KOSPI)",     "mic": "XKRX", "country": "KR" },
+      "KRX":         { "bbg_code": "KP", "bbg_composite": "KS", "name": "Korea Exchange (KOSPI)",     "mic": "XKRX", "country": "KR" },
+      "KOSDAQ":      { "bbg_code": "KQ", "bbg_composite": "KS", "name": "KOSDAQ",                     "mic": "XKOS", "country": "KR" },
+      "TWSE":        { "bbg_code": "TT", "bbg_composite": null, "name": "Taiwan Stock Exchange",      "mic": "XTAI", "country": "TW" },
+      "SET":         { "bbg_code": "TB", "bbg_composite": null, "name": "Stock Exchange of Thailand", "mic": "XBKK", "country": "TH" },
+      "IDX":         { "bbg_code": "IJ", "bbg_composite": null, "name": "Indonesia Stock Exchange",   "mic": "XIDX", "country": "ID" },
+      "HOSE":        { "bbg_code": "VM", "bbg_composite": "VN", "name": "Ho Chi Minh Stock Exchange", "mic": "XSTC", "country": "VN" },
+      "HNX":         { "bbg_code": "VH", "bbg_composite": "VN", "name": "Hanoi Stock Exchange",       "mic": "HSTC", "country": "VN" },
+      "SSE":         { "bbg_code": "CG", "bbg_composite": "CH", "name": "Shanghai Stock Exchange",    "mic": "XSHG", "country": "CN" },
+      "SZSE":        { "bbg_code": "CS", "bbg_composite": "CH", "name": "Shenzhen Stock Exchange",    "mic": "XSHE", "country": "CN" },
+      "SEHKNTL":     { "bbg_code": "C1", "bbg_composite": "CH", "name": "Shanghai-HK Stock Connect (North)","mic": "XSHG", "country": "CN" },
+      "SEHKSZSE":    { "bbg_code": "C2", "bbg_composite": "CH", "name": "Shenzhen-HK Stock Connect (North)","mic": "XSEC", "country": "CN" }
+    },
+  
+    "india": {
+      "NSE":         { "bbg_code": "IS", "bbg_composite": "IN", "name": "National Stock Exchange of India","mic": "XNSE", "country": "IN" },
+      "BSE":         { "bbg_code": "IB", "bbg_composite": "IN", "name": "Bombay Stock Exchange",      "mic": "XBOM", "country": "IN" }
+    },
+  
+    "africa": {
+      "JSE":         { "bbg_code": "SJ", "bbg_composite": null, "name": "Johannesburg Stock Exchange","mic": "XJSE", "country": "ZA" },
+      "A2X":         { "bbg_code": "AJ", "bbg_composite": null, "name": "A2X Markets",                "mic": "A2XX", "country": "ZA" }
+    },
+  
+    "latin_america": {
+      "MEXI":        { "bbg_code": "MF", "bbg_composite": "MM", "name": "Bolsa Mexicana de Valores",  "mic": "XMEX", "country": "MX" },
+      "MEXDER":      { "bbg_code": "MF", "bbg_composite": "MM", "name": "Bolsa Mexicana de Valores",  "mic": "XMEX", "country": "MX" },
+      "BIVA":        { "bbg_code": "MU", "bbg_composite": "MM", "name": "BIVA (Mexico)",              "mic": "BIVA", "country": "MX" },
+      "BOVESPA":     { "bbg_code": "BZ", "bbg_composite": null, "name": "B3 / BM&FBovespa",           "mic": "BVMF", "country": "BR" },
+      "BVMF":        { "bbg_code": "BZ", "bbg_composite": null, "name": "B3 / BM&FBovespa",           "mic": "BVMF", "country": "BR" }
+    },
+  
+    "special_notes": {
+      "SMART":       { "bbg_code": null, "bbg_composite": null, "name": "IB SmartRouter (NOT an exchange)", "note": "Resolve to actual listing venue before mapping; do not pass to Bloomberg." },
+      "OVERNIGHT":   { "bbg_code": null, "bbg_composite": null, "name": "IB overnight session",            "note": "Use the underlying primary exchange code instead." },
+      "DRCTEDGE":    { "bbg_code": "VK", "bbg_composite": "US", "name": "Direct Edge (legacy, now EDGX)",  "mic": "EDGX", "country": "US" },
+      "EUIBSI":      { "bbg_code": null, "bbg_composite": null, "name": "IBKR Systematic Internaliser (EU)","note": "Internalisation venue; not a Bloomberg-listed exchange. Use the primary listing exchange of the security." },
+      "CASH":        { "bbg_code": null, "bbg_composite": null, "name": "Cash position",                   "note": "Use ID_TYPE=CASH row; no exchange needed." }
+    }
+  }
