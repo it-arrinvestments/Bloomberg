@@ -175,7 +175,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help=(
             "Path to output CSV file. "
-            "Default: ~/shared/arr_portfolio_snapshot.csv"
+            "Default: ~/shared/arr_portfolio_snapshot_file.csv"
         ),
     )
     return parser
