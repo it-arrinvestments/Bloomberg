@@ -6,6 +6,8 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
+import tempfile
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
@@ -28,7 +30,7 @@ EXCHANGE_MAPPER_PATH = Path(__file__).resolve().with_name(
 )
 
 # Final portfolio CSV for sharing (default --output).
-DEFAULT_OUTPUT_CSV = Path.home() / "shared" / "arr_portfolio_snapshot.csv"
+DEFAULT_OUTPUT_CSV = Path.home() / "shared" / "arr_portfolio_snapshot_file.csv"
 
 
 def normalize_user_path(raw_path: str) -> Path:
@@ -201,10 +203,25 @@ def main() -> int:
     exchange_mapping = load_exchange_mapping()
     transformed = transform_rows(payload, exchange_mapping)
 
-    with output_path.open("w", newline="", encoding="utf-8") as outfile:
-        writer = csv.DictWriter(outfile, fieldnames=CSV_COLUMNS)
-        writer.writeheader()
-        writer.writerows(transformed)
+    # Write to a temp file in the same directory, then atomically rename it
+    # into place. An in-place overwrite ("w" mode) does not reliably update
+    # the modification timestamp visible to Windows on shared/SMB folders;
+    # a rename/create event is detected immediately.
+    tmp_fd, tmp_path = tempfile.mkstemp(
+        dir=output_path.parent, prefix=".tmp_", suffix=".csv"
+    )
+    try:
+        with os.fdopen(tmp_fd, "w", newline="", encoding="utf-8") as outfile:
+            writer = csv.DictWriter(outfile, fieldnames=CSV_COLUMNS)
+            writer.writeheader()
+            writer.writerows(transformed)
+        os.replace(tmp_path, output_path)
+    except Exception:
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass
+        raise
 
     print(f"Wrote {len(transformed)} rows to: {output_path}")
     return 0
