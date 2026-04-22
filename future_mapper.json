@@ -1,0 +1,165 @@
+{
+    "metadata": {
+      "version": "2026-04",
+      "description": "Comprehensive mapper from Interactive Brokers (IB) futures root symbols to Bloomberg active contract tickers",
+      "bloomberg_convention": {
+        "most_active_ticker": "Root symbol + 'A' suffix → always points to the highest open-interest contract, e.g. ESA Index",
+        "yellow_keys": {
+          "Index": "Equity and volatility index futures",
+          "Comdty": "Commodities, energy, metals, ags, and fixed income futures",
+          "Curncy": "FX futures"
+        },
+        "notes": [
+          "Micro contracts (MES, MNQ, MGC, MCL, etc.) map to the SAME Bloomberg active ticker as their full-size parent because they reference the same underlying.",
+          "Bloomberg 'A' suffix is the most-active (highest open interest) rolling ticker. The 'generic N-th month' variant uses a number suffix (e.g. TY1 Comdty = 1st generic 10-Year T-Note).",
+          "ICE and Eurex instruments follow the same 'XA <Key>' convention as CME.",
+          "Sources: CME Group Bloomberg cheat sheets (official), University of Calgary Bloomberg guide, Bloomberg BLPAPI Core User Guide, CME FX Bloomberg User Guide."
+        ]
+      }
+    },
+  
+    "mappings": {
+  
+      "us_equity_index": {
+        "ES":  { "bloomberg": "ESA Index",   "description": "E-mini S&P 500 Futures (CME)",                 "exchange": "CME" },
+        "MES": { "bloomberg": "ESA Index",   "description": "Micro E-mini S&P 500 Futures (CME)",           "exchange": "CME", "note": "Micro contract; same Bloomberg active ticker as ES" },
+        "SP":  { "bloomberg": "SPA Index",   "description": "Standard S&P 500 Futures (CME)",               "exchange": "CME" },
+        "NQ":  { "bloomberg": "NQA Index",   "description": "E-mini Nasdaq-100 Futures (CME)",              "exchange": "CME" },
+        "MNQ": { "bloomberg": "NQA Index",   "description": "Micro E-mini Nasdaq-100 Futures (CME)",        "exchange": "CME", "note": "Micro contract; same Bloomberg active ticker as NQ" },
+        "YM":  { "bloomberg": "DMA Index",   "description": "E-mini Dow Jones Industrial Average ($5) Futures (CBOT)", "exchange": "CBOT" },
+        "MYM": { "bloomberg": "DMA Index",   "description": "Micro E-mini Dow Jones Futures (CBOT)",        "exchange": "CBOT", "note": "Micro contract; same Bloomberg active ticker as YM" },
+        "RTY": { "bloomberg": "RTYA Index",  "description": "E-mini Russell 2000 Futures (CME)",            "exchange": "CME" },
+        "M2K": { "bloomberg": "RTYA Index",  "description": "Micro E-mini Russell 2000 Futures (CME)",      "exchange": "CME", "note": "Micro contract; same Bloomberg active ticker as RTY" },
+        "EMD": { "bloomberg": "EMDA Index",  "description": "E-mini S&P MidCap 400 Futures (CME)",          "exchange": "CME" },
+        "VX":  { "bloomberg": "UXA Index",   "description": "CBOE VIX Volatility Index Futures (CFE)",      "exchange": "CFE" }
+      },
+  
+      "international_equity_index": {
+        "NKD":  { "bloomberg": "NKA Index",    "description": "Nikkei 225 Futures, USD-denominated (CME)",      "exchange": "CME" },
+        "NIY":  { "bloomberg": "NKA Index",    "description": "Nikkei 225 Futures, JPY-denominated (CME/OSE)", "exchange": "CME/OSE" },
+        "FESX": { "bloomberg": "STXEA Index",  "description": "Euro Stoxx 50 Index Futures (Eurex)",           "exchange": "EUREX" },
+        "DAX":  { "bloomberg": "GDAXA Index",  "description": "DAX 40 Index Futures (Eurex)",                  "exchange": "EUREX" },
+        "Z":    { "bloomberg": "ZA Index",     "description": "FTSE 100 Index Futures (ICE Futures Europe)",   "exchange": "ICE" },
+        "SPI":  { "bloomberg": "XPA Index",    "description": "ASX SPI 200 Futures (ASX)",                     "exchange": "ASX" },
+        "HSI":  { "bloomberg": "HIA Index",    "description": "Hang Seng Index Futures (HKEX)",                "exchange": "HKEX" },
+        "MHI":  { "bloomberg": "HIA Index",    "description": "Mini Hang Seng Index Futures (HKEX)",           "exchange": "HKEX", "note": "Micro contract; same Bloomberg active ticker as HSI" },
+        "HHI":  { "bloomberg": "HHIA Index",   "description": "Hang Seng China Enterprises (H-Shares) Futures (HKEX)", "exchange": "HKEX" },
+        "MCH":  { "bloomberg": "HHIA Index",   "description": "Mini HSCEI Futures (HKEX)",                    "exchange": "HKEX" },
+        "FSMI": { "bloomberg": "SMIA Index",   "description": "Swiss Market Index (SMI) Futures (Eurex)",     "exchange": "EUREX" },
+        "ES2":  { "bloomberg": "MXEAA Index",  "description": "MSCI EAFE Futures (ICE/SGX)",                  "exchange": "ICE" },
+        "EI":   { "bloomberg": "MXEFA Index",  "description": "MSCI Emerging Markets Futures (ICE)",          "exchange": "ICE" },
+        "CAC":  { "bloomberg": "FCHA Index",   "description": "CAC 40 Futures (Euronext)",                    "exchange": "EURONEXT" },
+        "AEX":  { "bloomberg": "AEXA Index",   "description": "AEX Index Futures (Euronext)",                 "exchange": "EURONEXT" },
+        "IBEX": { "bloomberg": "IBEXA Index",  "description": "IBEX 35 Futures (BME)",                        "exchange": "BME" },
+        "MIB":  { "bloomberg": "MIBA Index",   "description": "FTSE MIB Futures (IDEM/Borsa Italiana)",       "exchange": "IDEM" },
+        "FMEU": { "bloomberg": "STXEA Index",  "description": "Micro Euro Stoxx 50 Futures (Eurex)",          "exchange": "EUREX", "note": "Same Bloomberg active ticker as FESX" }
+      },
+  
+      "us_treasury_fixed_income": {
+        "ZT":  { "bloomberg": "TUA Comdty",  "description": "2-Year US Treasury Note Futures (CBOT)",         "exchange": "CBOT" },
+        "ZF":  { "bloomberg": "FVA Comdty",  "description": "5-Year US Treasury Note Futures (CBOT)",         "exchange": "CBOT" },
+        "ZN":  { "bloomberg": "TYA Comdty",  "description": "10-Year US Treasury Note Futures (CBOT)",        "exchange": "CBOT" },
+        "TN":  { "bloomberg": "TNA Comdty",  "description": "Ultra 10-Year US Treasury Note Futures (CBOT)",  "exchange": "CBOT" },
+        "ZB":  { "bloomberg": "USA Comdty",  "description": "30-Year US Treasury Bond Futures (CBOT)",        "exchange": "CBOT" },
+        "UB":  { "bloomberg": "WNA Comdty",  "description": "Ultra 30-Year US Treasury Bond Futures (CBOT)",  "exchange": "CBOT" }
+      },
+  
+      "short_term_interest_rates": {
+        "SR3": { "bloomberg": "SFRA Comdty",  "description": "3-Month SOFR Futures (CME)",          "exchange": "CME" },
+        "SR1": { "bloomberg": "SERA Comdty",  "description": "1-Month SOFR Futures (CME)",          "exchange": "CME" },
+        "ZQ":  { "bloomberg": "FFA Comdty",   "description": "30-Day Fed Funds Rate Futures (CBOT)", "exchange": "CBOT" },
+        "GE":  { "bloomberg": "EDA Comdty",   "description": "Eurodollar Futures (CME) – legacy, largely replaced by SR3", "exchange": "CME" }
+      },
+  
+      "european_fixed_income": {
+        "FGBS": { "bloomberg": "DUA Comdty",  "description": "Euro-Schatz 2-Year German Bund Futures (Eurex)",  "exchange": "EUREX" },
+        "FGBM": { "bloomberg": "OEA Comdty",  "description": "Euro-Bobl 5-Year German Bund Futures (Eurex)",   "exchange": "EUREX" },
+        "FGBL": { "bloomberg": "RXA Comdty",  "description": "Euro-Bund 10-Year German Bund Futures (Eurex)",  "exchange": "EUREX" },
+        "FGBX": { "bloomberg": "UBA Comdty",  "description": "Euro-Buxl 30-Year German Bund Futures (Eurex)", "exchange": "EUREX" },
+        "FBTP": { "bloomberg": "IKA Comdty",  "description": "Italian BTP 10-Year Futures (Eurex)",          "exchange": "EUREX" },
+        "FOAT": { "bloomberg": "OAA Comdty",  "description": "French OAT 10-Year Futures (Eurex)",           "exchange": "EUREX" },
+        "FBON": { "bloomberg": "GBOA Comdty", "description": "Spanish Bonos 10-Year Futures (Eurex)",        "exchange": "EUREX" }
+      },
+  
+      "fx_currency_futures": {
+        "6E":  { "bloomberg": "ECA Curncy",  "description": "EUR/USD Futures (CME)",           "exchange": "CME" },
+        "M6E": { "bloomberg": "ECA Curncy",  "description": "Micro EUR/USD Futures (CME)",     "exchange": "CME", "note": "Micro contract; same Bloomberg active ticker as 6E" },
+        "6J":  { "bloomberg": "JYA Curncy",  "description": "JPY/USD Futures (CME)",           "exchange": "CME" },
+        "M6J": { "bloomberg": "JYA Curncy",  "description": "Micro JPY/USD Futures (CME)",     "exchange": "CME", "note": "Micro contract" },
+        "6B":  { "bloomberg": "BPA Curncy",  "description": "GBP/USD Futures (CME)",           "exchange": "CME" },
+        "M6B": { "bloomberg": "BPA Curncy",  "description": "Micro GBP/USD Futures (CME)",     "exchange": "CME", "note": "Micro contract" },
+        "6A":  { "bloomberg": "ADA Curncy",  "description": "AUD/USD Futures (CME)",           "exchange": "CME" },
+        "M6A": { "bloomberg": "ADA Curncy",  "description": "Micro AUD/USD Futures (CME)",     "exchange": "CME", "note": "Micro contract" },
+        "6C":  { "bloomberg": "CDA Curncy",  "description": "CAD/USD Futures (CME)",           "exchange": "CME" },
+        "M6C": { "bloomberg": "CDA Curncy",  "description": "Micro CAD/USD Futures (CME)",     "exchange": "CME", "note": "Micro contract" },
+        "6S":  { "bloomberg": "SFA Curncy",  "description": "CHF/USD Futures (CME)",           "exchange": "CME" },
+        "M6S": { "bloomberg": "SFA Curncy",  "description": "Micro CHF/USD Futures (CME)",     "exchange": "CME", "note": "Micro contract" },
+        "6N":  { "bloomberg": "NVA Curncy",  "description": "NZD/USD Futures (CME)",           "exchange": "CME" },
+        "6M":  { "bloomberg": "PEA Curncy",  "description": "MXN/USD Futures (CME)",           "exchange": "CME" },
+        "6L":  { "bloomberg": "BRA Curncy",  "description": "BRL/USD Futures (CME)",           "exchange": "CME" },
+        "6Z":  { "bloomberg": "RAA Curncy",  "description": "ZAR/USD Futures (CME)",           "exchange": "CME" },
+        "6R":  { "bloomberg": "RUA Curncy",  "description": "RUB/USD Futures (CME) – suspended", "exchange": "CME" },
+        "6K":  { "bloomberg": "KOA Curncy",  "description": "KRW/USD Futures (CME)",           "exchange": "CME" },
+        "DX":  { "bloomberg": "DXA Curncy",  "description": "US Dollar Index Futures (ICE)",   "exchange": "ICE" },
+        "CHYHK": { "bloomberg": "CHYA Curncy", "description": "USD/CNH Futures (CME)",          "exchange": "CME" }
+      },
+  
+      "precious_metals": {
+        "GC":  { "bloomberg": "GCA Comdty",  "description": "Gold Futures (COMEX)",          "exchange": "COMEX" },
+        "MGC": { "bloomberg": "GCA Comdty",  "description": "Micro Gold Futures (COMEX)",    "exchange": "COMEX", "note": "Micro contract; same Bloomberg active ticker as GC" },
+        "SI":  { "bloomberg": "SIA Comdty",  "description": "Silver Futures (COMEX)",        "exchange": "COMEX" },
+        "SIL": { "bloomberg": "SIA Comdty",  "description": "Micro Silver Futures (COMEX)",  "exchange": "COMEX", "note": "Micro contract; same Bloomberg active ticker as SI" },
+        "HG":  { "bloomberg": "HGA Comdty",  "description": "Copper Futures (COMEX)",        "exchange": "COMEX" },
+        "MHG": { "bloomberg": "HGA Comdty",  "description": "Micro Copper Futures (COMEX)",  "exchange": "COMEX", "note": "Micro contract" },
+        "PL":  { "bloomberg": "PLA Comdty",  "description": "Platinum Futures (NYMEX)",      "exchange": "NYMEX" },
+        "PA":  { "bloomberg": "PAA Comdty",  "description": "Palladium Futures (NYMEX)",     "exchange": "NYMEX" }
+      },
+  
+      "energy": {
+        "CL":  { "bloomberg": "CLA Comdty",  "description": "WTI Crude Oil Futures (NYMEX)",                "exchange": "NYMEX" },
+        "MCL": { "bloomberg": "CLA Comdty",  "description": "Micro WTI Crude Oil Futures (NYMEX)",          "exchange": "NYMEX", "note": "Micro contract; same Bloomberg active ticker as CL" },
+        "QM":  { "bloomberg": "CLA Comdty",  "description": "E-mini Crude Oil Futures (NYMEX)",             "exchange": "NYMEX", "note": "Half-size; same Bloomberg active ticker as CL" },
+        "BRN": { "bloomberg": "COA Comdty",  "description": "ICE Brent Crude Oil Futures",                 "exchange": "ICE" },
+        "CO":  { "bloomberg": "COA Comdty",  "description": "ICE Brent Crude Oil Futures (alt IB symbol)",  "exchange": "ICE" },
+        "NG":  { "bloomberg": "NGA Comdty",  "description": "Henry Hub Natural Gas Futures (NYMEX)",        "exchange": "NYMEX" },
+        "QG":  { "bloomberg": "NGA Comdty",  "description": "E-mini Natural Gas Futures (NYMEX)",           "exchange": "NYMEX", "note": "Same Bloomberg active ticker as NG" },
+        "HO":  { "bloomberg": "HOA Comdty",  "description": "Heating Oil #2 Futures (NYMEX)",              "exchange": "NYMEX" },
+        "RB":  { "bloomberg": "XBA Comdty",  "description": "RBOB Gasoline Futures (NYMEX)",               "exchange": "NYMEX" },
+        "GAS": { "bloomberg": "ICGA Comdty", "description": "ICE UK Natural Gas (NBP) Futures",            "exchange": "ICE" }
+      },
+  
+      "agriculture_grains_oilseeds": {
+        "ZC":  { "bloomberg": "C A Comdty",   "description": "CBOT Corn Futures",                 "exchange": "CBOT", "note": "Bloomberg ticker includes a space: 'C A Comdty'" },
+        "ZW":  { "bloomberg": "W A Comdty",   "description": "CBOT Wheat (SRW) Futures",          "exchange": "CBOT", "note": "Bloomberg ticker includes a space: 'W A Comdty'" },
+        "ZS":  { "bloomberg": "S A Comdty",   "description": "CBOT Soybean Futures",               "exchange": "CBOT", "note": "Bloomberg ticker includes a space: 'S A Comdty'" },
+        "ZL":  { "bloomberg": "BOA Comdty",   "description": "CBOT Soybean Oil Futures",           "exchange": "CBOT" },
+        "ZM":  { "bloomberg": "SMA Comdty",   "description": "CBOT Soybean Meal Futures",          "exchange": "CBOT" },
+        "ZO":  { "bloomberg": "OA Comdty",    "description": "CBOT Oat Futures",                   "exchange": "CBOT" },
+        "ZR":  { "bloomberg": "RRA Comdty",   "description": "CBOT Rough Rice Futures",             "exchange": "CBOT" },
+        "KE":  { "bloomberg": "KWA Comdty",   "description": "KC Hard Red Winter Wheat Futures (KCBT/CME)", "exchange": "KCBT" },
+        "MWE": { "bloomberg": "MWA Comdty",   "description": "MGEX Hard Red Spring Wheat Futures", "exchange": "MGEX" }
+      },
+  
+      "agriculture_softs": {
+        "CT":  { "bloomberg": "CTA Comdty",   "description": "ICE Cotton #2 Futures",              "exchange": "ICE" },
+        "KC":  { "bloomberg": "KCA Comdty",   "description": "ICE Coffee 'C' Arabica Futures",     "exchange": "ICE" },
+        "CC":  { "bloomberg": "QCA Comdty",   "description": "ICE Cocoa Futures",                  "exchange": "ICE" },
+        "SB":  { "bloomberg": "SBA Comdty",   "description": "ICE Sugar #11 Futures",              "exchange": "ICE" },
+        "OJ":  { "bloomberg": "JOA Comdty",   "description": "ICE FCOJ-A Orange Juice Futures",    "exchange": "ICE" },
+        "LBS": { "bloomberg": "LBA Comdty",   "description": "CME Random Length Lumber Futures",   "exchange": "CME" }
+      },
+  
+      "livestock": {
+        "LE":  { "bloomberg": "LCA Comdty",   "description": "CME Live Cattle Futures",           "exchange": "CME" },
+        "HE":  { "bloomberg": "LHA Comdty",   "description": "CME Lean Hog Futures",              "exchange": "CME" },
+        "GF":  { "bloomberg": "FCA Comdty",   "description": "CME Feeder Cattle Futures",         "exchange": "CME" }
+      },
+  
+      "crypto_digital_assets": {
+        "BTC":  { "bloomberg": "XBTA Index",     "description": "Bitcoin Futures (CME)",        "exchange": "CME" },
+        "MBT":  { "bloomberg": "XBTA Index",     "description": "Micro Bitcoin Futures (CME)",  "exchange": "CME", "note": "Micro contract; same Bloomberg active ticker as BTC" },
+        "ETH":  { "bloomberg": "ETHUSD Curncy",  "description": "Ether Futures (CME)",          "exchange": "CME" },
+        "MET":  { "bloomberg": "ETHUSD Curncy",  "description": "Micro Ether Futures (CME)",    "exchange": "CME", "note": "Micro contract; same Bloomberg active ticker as ETH" }
+      }
+    }
+  }

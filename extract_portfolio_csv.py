@@ -28,6 +28,7 @@ CSV_COLUMNS = [
 EXCHANGE_MAPPER_PATH = Path(__file__).resolve().with_name(
     "IB_to_Bloomberg_exchange_mapper.json"
 )
+FUTURE_MAPPER_PATH = Path(__file__).resolve().with_name("future_mapper.json")
 
 # Final portfolio CSV for sharing (default --output).
 DEFAULT_OUTPUT_CSV = Path.home() / "shared" / "arr_portfolio_snapshot_file.csv"
@@ -110,6 +111,36 @@ def load_exchange_mapping(mapper_path: Path = EXCHANGE_MAPPER_PATH) -> Dict[str,
     return mapped
 
 
+def load_future_symbol_mapping(
+    mapper_path: Path = FUTURE_MAPPER_PATH,
+) -> Dict[str, str]:
+    """Load IB futures symbol -> Bloomberg active ticker map."""
+    if not mapper_path.exists():
+        return {}
+
+    with mapper_path.open("r", encoding="utf-8") as infile:
+        payload = json.load(infile)
+
+    output: Dict[str, str] = {}
+    mappings = payload.get("mappings", {})
+    if not isinstance(mappings, dict):
+        return output
+
+    for section in mappings.values():
+        if not isinstance(section, dict):
+            continue
+        for symbol, info in section.items():
+            if not isinstance(info, dict):
+                continue
+            bloomberg_value = info.get("bloomberg")
+            if not bloomberg_value:
+                continue
+            symbol_key = str(symbol).strip().upper()
+            if symbol_key:
+                output[symbol_key] = str(bloomberg_value).strip()
+    return output
+
+
 def map_exchange_to_bloomberg(exchange: str, mapping: Dict[str, str]) -> str:
     """Map IB exchange code to Bloomberg exchange suffix."""
     if not exchange:
@@ -122,15 +153,25 @@ def map_exchange_to_bloomberg(exchange: str, mapping: Dict[str, str]) -> str:
 
 
 def transform_rows(
-    payload: Dict[str, Any], exchange_mapping: Dict[str, str] | None = None
+    payload: Dict[str, Any],
+    exchange_mapping: Dict[str, str] | None = None,
+    future_symbol_mapping: Dict[str, str] | None = None,
 ) -> List[Dict[str, Any]]:
     as_of_date = parse_as_of_date(payload.get("as_of"))
     rows = payload.get("rows", [])
     exchange_mapping = exchange_mapping or {}
+    future_symbol_mapping = future_symbol_mapping or {}
 
     output_rows: List[Dict[str, Any]] = []
     for row in rows:
         id_isin = (row.get("ISIN") or "").strip()
+        raw_symbol = row.get("Symbol")
+        symbol = raw_symbol
+        symbol_key = str(raw_symbol).strip().upper() if raw_symbol is not None else ""
+        if not id_isin and symbol_key:
+            mapped_symbol = future_symbol_mapping.get(symbol_key)
+            if mapped_symbol:
+                symbol = mapped_symbol
         raw_exchange = (
             row.get("eexchange")
             or row.get("eExchange")
@@ -140,7 +181,7 @@ def transform_rows(
         output_rows.append(
             {
                 "AS_OF_DATE": as_of_date,
-                "SYMBOL": row.get("Symbol"),
+                "SYMBOL": symbol,
                 "ID_ISIN": id_isin,
                 "ID_TYPE": "ISIN" if id_isin else "",
                 "POSITION": row.get("Position"),
@@ -201,7 +242,8 @@ def main() -> int:
         payload = json.load(infile)
 
     exchange_mapping = load_exchange_mapping()
-    transformed = transform_rows(payload, exchange_mapping)
+    future_symbol_mapping = load_future_symbol_mapping()
+    transformed = transform_rows(payload, exchange_mapping, future_symbol_mapping)
 
     # Write to a temp file in the same directory, then atomically rename it
     # into place. An in-place overwrite ("w" mode) does not reliably update
